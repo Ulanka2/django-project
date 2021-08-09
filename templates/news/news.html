@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+новости
+{% endblock %}
+
+
+{% block content %}
+    <center>
+    {% for one_news in all_news %}
+    {% for tag in all_tags %}
+      <a href="{% url 'news_by_tag' tag.id %}" class="btn btn-primary"><h1>{{tag.name}}</h1></a>
+    {% endfor %}
+    <!-- тут можно использовать range() чтоюы по 3 в лайне -->
+    <div class="card" style="width: 23rem;">
+        <img src="{{one_news.img}}" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">{{one_news.title}}</h5>
+          <p class="card-text">{{one_news.text}}</p>
+          <a href="{% url 'news_detail' pk=one_news.pk %}" class="btn btn-primary">Читать полностью</a>
+        </div>    
+    {% endfor %}
+    <p>{% include "pagination.html"  with page=all_news %}</p> 
+</div></center>
+{% endblock %}
