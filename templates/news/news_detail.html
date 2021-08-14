@@ -25,7 +25,7 @@
           </svg></a>
     <hr>
     {% endif %}
-
+ {% if request.user.is_authenticated %}
 {% with comments.count as total_comments %}
     <h2>
     {{ total_comments }} comment{{ total_comments|pluralize }}
@@ -51,6 +51,7 @@
     {% csrf_token %}
     <p><input type="submit" value="Add comment"></p>
     </form>
+{% endif %}
 {% endif %}
 </center>
 {% endblock %}

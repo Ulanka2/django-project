@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, forms, login, logout
@@ -63,5 +63,18 @@ def dashboard(request):
 def logout_view(request):
     logout(request)
     return redirect(reverse('login'))
+
+def edit(request, pk):
+    user = get_object_or_404(CustomUser, pk=pk)
+    if request.method == "POST":
+        form = LoginForm(request.POST, instance=user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            return redirect('registration', pk=user.pk)
+    else:
+        form = LoginForm(instance=user)
+    return render(request, 'account/edit_account.html', {'form': form})
+
 
 
